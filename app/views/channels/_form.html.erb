@@ -1,0 +1,34 @@
+<%= form_with(model: channel) do |form| %>
+  <% if channel.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(channel.errors.count, "error") %> prohibited this channel from being saved:</h2>
+
+      <ul>
+      <% channel.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: 'form-label' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <% if channel.persisted? %>
+      <div class="float-end">
+        <%= link_to 'Destroy', channel, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if channel.persisted? %>
+      <%= link_to "Cancel", channel, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", channels_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

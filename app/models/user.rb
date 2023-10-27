@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   has_many :notifications, as: :recipient, dependent: :destroy
   has_many :services
+  has_many :channel_users
+  has_many :channels, through: :channel_users
+  has_many :messages, dependent: :destroy
 end

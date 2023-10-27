@@ -120,6 +120,8 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    font-awesome-sass (6.4.2)
+      sassc (~> 2.0)
     friendly_id (5.5.0)
       activerecord (>= 4.0.0)
     globalid (1.2.1)
@@ -273,6 +275,8 @@ GEM
     rexml (3.2.6)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     selenium-webdriver (4.14.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -334,6 +338,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise (~> 4.9)
+  font-awesome-sass (~> 6.4)
   friendly_id (~> 5.4)
   importmap-rails
   jbuilder
