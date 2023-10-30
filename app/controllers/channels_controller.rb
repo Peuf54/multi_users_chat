@@ -10,8 +10,8 @@ class ChannelsController < ApplicationController
   # GET /channels/1 or /channels/1.json
   def show
     @channel_user = current_user.channel_users.find_by(channel_id: @channel.id)
-    @last_read_at = @channel_user.last_read_at
-    @channel_user.touch(:last_read_at)
+    @last_read_at = @channel_user&.last_read_at
+    @channel_user.touch(:last_read_at) if @last_read_at
     
   end
 
