@@ -1,18 +1,25 @@
 <div class="row" data-controller="channel" data-channel-id="<%= @channel.id %>" data-channel-current-user-id="<%= current_user.id %>">
-  <div class="col-sm-2">
+  <div class="col-lg-3 col-md-4">
     <div class="d-flex justify-content-between">
       <h5>Channels</h5>
       <%= link_to icon("fas", "plus"), new_channel_path %>
     </div>
 
-    <% Channel.all.each do |channel| %>
-      <div class="d-flex justify-content-between">
-        <%= link_to channel.name, channel %>
-        <% if current_user.channels.include?(channel) %>
-          <%= link_to icon("fas", "times"), channel_channel_user_path(channel), method: :delete %>
-        <% end %>
-      </div>
-    <% end %>
+    <ul class="list-group">
+      <% Channel.all.each do |channel| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
+        data-controller="unreads"
+        data-unreads-id="<%= channel.id %>">
+          <%= link_to channel.name, channel %>
+          <div>
+            <span class="badge badge-pill bg-danger fw-bold text-white" data-unreads-target="pill"><%= channel.unreads_amount(current_user) > 0 ? channel.unreads_amount(current_user) : "" %></span>
+            <% if current_user.channels.include?(channel) %>
+              <%= link_to icon("fas", "times"), channel_channel_user_path(channel), method: :delete %>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
 
     <hr>
 
@@ -56,7 +63,7 @@
 
   </div>
 
-  <div class="col-sm-10" data-action="click->channel#touch">
+  <div class="col-lg-9 col-md-8 messages-container" data-action="click->channel#touch" data-channel-target="messagesContainer">
     <div data-channel-target="messages">
       <%= render @channel.displayable_messages %>
     </div>

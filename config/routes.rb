@@ -24,4 +24,14 @@ end
     resources :messages
     resources :channel_users, only: [:create, :destroy]
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :channels, only: [] do
+        member do
+          get :unreads_amount
+        end
+      end
+    end
+  end  
 end

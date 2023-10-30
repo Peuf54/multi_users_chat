@@ -3,7 +3,7 @@ import consumer from "../channels/consumer"
 
 // Connects to data-controller="channel"
 export default class extends Controller {
-  static targets = ["messages", "input"]
+  static targets = ["messages", "input", "messagesContainer"]
 
   connect() {
     this.subscription = consumer.subscriptions.create({ channel: "MessageChannel", id: this.data.get("id") }, {
@@ -18,7 +18,7 @@ export default class extends Controller {
   }
 
   _connected() {
-
+    this.scrollToBottom();
   }
 
   _disconnected() {
@@ -35,6 +35,7 @@ export default class extends Controller {
         this.messagesTarget.insertAdjacentHTML("beforeend", '<div id="last-read-line" class="border-bottom border-danger"></div>');
       }
       this.messagesTarget.insertAdjacentHTML("beforeend", data.message);
+      this.scrollToBottom();
       if (document.hidden) {
         const messages_alert = new Audio('/audio/messages_alert.mp3');
         messages_alert.play();
@@ -44,7 +45,9 @@ export default class extends Controller {
       if (navElement) {
         navElement.insertAdjacentHTML("afterend", data.alert);
       }
+      this.scrollToTop();
     }
+    
   }
 
   touch() {
@@ -59,5 +62,22 @@ export default class extends Controller {
 
   clearInput(event) {
     this.inputTarget.value = "";
+    this.touch();
   }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
+  scrollToBottom() {
+    const lastReadLine = this.messagesContainerTarget.querySelector("#last-read-line");
+    const containerOffset = this.messagesContainerTarget.offsetTop;
+    
+    if (lastReadLine) {
+      const position = lastReadLine.offsetTop - containerOffset;
+      this.messagesContainerTarget.scrollTo(0, position);
+    } else {
+      this.messagesContainerTarget.scrollTo(0, this.messagesTarget.scrollHeight - containerOffset);
+    }
+  }   
 }

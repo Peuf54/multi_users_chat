@@ -4,12 +4,17 @@ class MessagesController < ApplicationController
 
     def create
         @message = @channel.messages.new(message_params)
-        @message.save
-        if MessageModeratorService.message_approved?(@message)
-            MessageChannel.broadcast_to @channel, message: render_to_string(@message), message_user_id: current_user.id
+        if @message.save
+            if MessageModeratorService.message_approved?(@message)
+                MessageChannel.broadcast_to @channel, message: render_to_string(@message), message_user_id: current_user.id
+                UnreadsChannel.broadcast_to @channel, new_message: true, channel_id: @channel.id
+            else
+                @message.update(display: false)
+                alert_html = render_to_string(partial: "shared/notices", locals: { flash: { alert: "Your message was flagged as inappropriate and was not sent." } })
+                MessageChannel.broadcast_to @channel, alert: alert_html
+            end
         else
-            @message.update(display: false)
-            alert_html = render_to_string(partial: "shared/notices", locals: { flash: { alert: "Your message was flagged as inappropriate and was not sent." } })
+            alert_html = render_to_string(partial: "shared/notices", locals: { flash: { alert: @message.errors.full_messages } })
             MessageChannel.broadcast_to @channel, alert: alert_html
         end
     end

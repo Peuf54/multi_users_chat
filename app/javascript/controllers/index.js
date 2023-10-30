@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import TimeController from "./time_controller"
 application.register("time", TimeController)
+
+import UnreadsController from "./unreads_controller"
+application.register("unreads", UnreadsController)

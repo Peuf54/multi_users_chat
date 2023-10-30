@@ -1,7 +1,7 @@
 <div class="message-container" 
     data-controller="time" 
     data-time-created-at-value="<%= message.created_at.to_i %>">
-    <% if !@red_line_shown && @last_read_at && message.created_at > @last_read_at %>
+    <% if !@red_line_shown && @last_read_at && message.created_at > @last_read_at && current_user.id != message.user_id %>
     <% @red_line_shown = true %>
         <div id="last-read-line" class="border-bottom border-danger"></div>
     <% end %>
