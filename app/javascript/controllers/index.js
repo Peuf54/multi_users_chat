@@ -9,3 +9,6 @@ application.register("channel", ChannelController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import TimeController from "./time_controller"
+application.register("time", TimeController)

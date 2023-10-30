@@ -1,4 +1,11 @@
-<div>
-    <div class="fw-bold"><%= message.user.name %></div>
+<div class="message-container" 
+    data-controller="time" 
+    data-time-created-at-value="<%= message.created_at.to_i %>">
+    <div>
+        <p class="fw-bold m-0">
+            <%= message.user.name %> 
+            <span class="fw-light" data-time-target="time"></span>
+        </p>    
+    </div>
     <div><%= message.body %></div>
 </div>

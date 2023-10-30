@@ -6,6 +6,6 @@ class Channel < ApplicationRecord
     validates :name, presence: true, uniqueness: true
 
     def displayable_messages
-        messages.where(display: true)
+        messages.where(display: true).order(created_at: :asc)
     end
 end
