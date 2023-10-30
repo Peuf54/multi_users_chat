@@ -9,6 +9,7 @@ class ChannelsController < ApplicationController
 
   # GET /channels/1 or /channels/1.json
   def show
+    @last_read_at = current_user.channel_users.find_by(channel_id: @channel.id)&.last_read_at
   end
 
   # GET /channels/new

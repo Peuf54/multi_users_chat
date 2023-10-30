@@ -27,13 +27,34 @@ export default class extends Controller {
 
   _received(data) {
     if (data.message) {
+      const lastReadLine = this.element.querySelector("#last-read-line");
+      const messageUserId = data.message_user_id;
+      const currentUserId = this.data.get("currentUserId");
+
+      if (!lastReadLine && messageUserId != currentUserId) {
+        this.messagesTarget.insertAdjacentHTML("beforeend", '<div id="last-read-line" class="border-bottom border-danger"></div>');
+      }
       this.messagesTarget.insertAdjacentHTML("beforeend", data.message);
+      if (document.hidden) {
+        const messages_alert = new Audio('/audio/messages_alert.mp3');
+        messages_alert.play();
+      }
     } else if (data.alert) {
       const navElement = document.querySelector('nav');
       if (navElement) {
         navElement.insertAdjacentHTML("afterend", data.alert);
       }
     }
+  }
+
+  touch() {
+    this.subscription.perform("touch");
+    setTimeout(() => {
+      const lastReadLine = this.element.querySelector("#last-read-line");
+      if (lastReadLine) {
+        lastReadLine.remove();
+      }
+    }, 5000);
   }
 
   clearInput(event) {
