@@ -37,7 +37,7 @@ export default class extends Controller {
     // Calculer la différence en jours entre aujourd'hui et la date de création
     const diffInDaysFromMidnight = Math.round((nowAtMidnight - createdAtMidnight) / (1000 * 60 * 60 * 24));
 
-    if (diffInSeconds < 1) {
+    if (diffInSeconds < 2) {
       return `à l'instant`;
     } else if (diffInSeconds < 60) {
       return `il y a ${Math.round(diffInSeconds)} secondes`;
