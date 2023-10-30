@@ -88,3 +88,7 @@ gem "whenever", require: false
 gem "responders", github: "heartcombo/responders", branch: "main"
 
 gem "font-awesome-sass", "~> 6.4"
+
+gem "dotenv-rails", "~> 2.8"
+
+gem "httparty", "~> 0.21.0"

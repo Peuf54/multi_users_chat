@@ -4,4 +4,8 @@ class Channel < ApplicationRecord
     has_many :messages, dependent: :destroy
 
     validates :name, presence: true, uniqueness: true
+
+    def displayable_messages
+        messages.where(display: true)
+    end
 end

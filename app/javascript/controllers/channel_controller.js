@@ -3,14 +3,14 @@ import consumer from "../channels/consumer"
 
 // Connects to data-controller="channel"
 export default class extends Controller {
-  static targets = [ "messages", "input" ]
+  static targets = ["messages", "input"]
 
   connect() {
     this.subscription = consumer.subscriptions.create({ channel: "MessageChannel", id: this.data.get("id") }, {
       connected: this._connected.bind(this),
       disconnected: this._disconnected.bind(this),
       received: this._received.bind(this)
-    }); 
+    });
   }
 
   disconnect() {
@@ -28,6 +28,11 @@ export default class extends Controller {
   _received(data) {
     if (data.message) {
       this.messagesTarget.insertAdjacentHTML("beforeend", data.message);
+    } else if (data.alert) {
+      const navElement = document.querySelector('nav');
+      if (navElement) {
+        navElement.insertAdjacentHTML("afterend", data.alert);
+      }
     }
   }
 

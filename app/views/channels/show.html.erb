@@ -1,7 +1,7 @@
 <div class="row" data-controller="channel" data-channel-id="<%= @channel.id %>">
   <div class="col-sm-2">
     <div class="d-flex justify-content-between">
-      <h6>Channels</h6>
+      <h5>Channels</h5>
       <%= link_to icon("fas", "plus"), new_channel_path %>
     </div>
 
@@ -17,18 +17,27 @@
     <hr>
 
     <div class="d-flex justify-content-between">
-      <h6>Users</h6>
+      <h5>Users</h5>
     </div>
     <% @channel.users.each do |user| %>
       <div>
         <%= user.name %>
       </div>
     <% end %>
+
+    <hr>
+
+    <div class="d-flex justify-content-between">
+      <h5>Bad Words</h5>
+    </div>
+      <% BAD_WORDS.each do |word| %>
+        <p><%= word %></p>
+      <% end %> 
   </div>
 
   <div class="col-sm-10">
     <div data-channel-target="messages">
-      <%= render @channel.messages %>
+      <%= render @channel.displayable_messages %>
     </div>
 
     <% if current_user.channels.include?(@channel) %>

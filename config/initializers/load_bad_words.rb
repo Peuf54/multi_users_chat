@@ -1,0 +1,20 @@
+BAD_WORDS = Set.new [
+    "con",
+    "pute",
+    "salope",
+    "chienne",
+    "connard",
+    "connasse",
+    "enculé",
+    "enculée",
+    "enculer",
+    "batard",
+    "bâtard",
+    "bougnoul",
+    "bougnoule",
+    "bite",
+    "nique",
+    "niquer",
+    "couilles",
+    "couille"    
+]
