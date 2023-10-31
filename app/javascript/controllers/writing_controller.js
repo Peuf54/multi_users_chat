@@ -7,6 +7,7 @@ let writingTimeout;
 export default class extends Controller {
 
   connect() {
+    document.addEventListener('message-sent', this.stopWriting.bind(this));
     this.channel_id = document.querySelector('meta[name="current_channel_id"]').getAttribute('content');
     this.subscription = consumer.subscriptions.create({ channel: "MessageChannel", id: this.channel_id }, {
       connected: this._connected.bind(this),
@@ -26,8 +27,14 @@ export default class extends Controller {
 
   }
 
-  startWriting() {
-    this.subscription.perform("start_writing");
+  startWriting(event) {
+    if (!(event.key == "Enter")) {
+      this.subscription.perform("start_writing");
+    }
+  }
+
+  stopWriting() {
+    this.subscription.perform("stop_writing");
   }
 
   scrollToBottom() {
@@ -42,23 +49,35 @@ export default class extends Controller {
     const writer_user_name = data.user_name;
 
     // If action 'writing' is true from MessageChannel's broadcast, writer's name is different than current_user, and the writing element doesn't exist yet, then insert it
-    if (data.writing && current_user_name != writer_user_name && !document.getElementById(`writing-${data.user_id}`)) {
+    if (data.writing && current_user_name != writer_user_name && !document.getElementById(`writing-${data.user_name}`)) {
 
-      this.element.insertAdjacentHTML("beforebegin", `<small id="writing-${data.user_id}" class="fw-light"><span class="fw-bold">${writer_user_name}</span> is writing...</small>`)
+      this.element.insertAdjacentHTML("beforebegin", `<small id="writing-${data.user_name}" class="fw-light"><span class="fw-bold">${writer_user_name}</span> is writing...</small>`)
+      this.clearTimeout(writingTimeout);
+      this.setTimeout(data);
       this.scrollToBottom();
-
-      // Clear old timers if existing
-      if (writingTimeout) {
-        clearTimeout(writingTimeout)
+      console.log(data);
+    } else if (!data.writing) {
+      const writingElement = document.getElementById(`writing-${data.user_name}`);
+      if (writingElement) {
+        writingElement.remove();
       }
-
-      // Set new timer
-      writingTimeout = setTimeout(() => {
-        const writingElement = document.getElementById(`writing-${data.user_id}`);
-        if (writingElement) {
-          writingElement.remove();
-        }
-      }, 2500);
     }
   } 
+
+  setTimeout(data) {
+    // Set new timer
+    writingTimeout = setTimeout(() => {
+      const writingElement = document.getElementById(`writing-${data.user_name}`);
+      if (writingElement) {
+        writingElement.remove();
+      }
+    }, 2500);
+  }
+
+  clearTimeout(timeout) {
+    // Clear previous timer
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  }
 }

@@ -66,6 +66,7 @@ export default class extends Controller {
 
   clearInput(event) {
     this.inputTarget.value = "";
+    document.dispatchEvent(new Event('message-sent'));
     this.touch();
   }
 
