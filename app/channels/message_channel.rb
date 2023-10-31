@@ -13,4 +13,8 @@ class MessageChannel < ApplicationCable::Channel
   def touch
     @channel_user&.touch(:last_read_at)
   end
+
+  def start_writing
+    self.class.broadcast_to(@channel, { writing: true, user_name: current_user.name })
+  end
 end

@@ -10,8 +10,14 @@ application.register("channel", ChannelController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MentionsController from "./mentions_controller"
+application.register("mentions", MentionsController)
+
 import TimeController from "./time_controller"
 application.register("time", TimeController)
 
 import UnreadsController from "./unreads_controller"
 application.register("unreads", UnreadsController)
+
+import WritingController from "./writing_controller"
+application.register("writing", WritingController)

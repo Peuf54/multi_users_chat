@@ -13,7 +13,7 @@
           <%= link_to channel.name, channel %>
           <div>
             <% if current_user.channels.include?(channel) %>
-              <span class="badge badge-pill bg-danger fw-bold text-white" data-unreads-target="pill"><%= channel.unreads_amount(current_user) > 0 ? channel.unreads_amount(current_user) : "" %></span>
+              <span class="badge badge-pill bg-danger fw-bold text-white" id="pill-<%= channel.id %>" data-unreads-target="pill"><%= channel.unreads_amount(current_user) > 0 ? channel.unreads_amount(current_user) : "" %></span>
               <%= link_to icon("fas", "times"), channel_channel_user_path(channel), method: :delete %>
             <% end %>
           </div>
@@ -72,7 +72,11 @@
 
     <% if current_user.channels.include?(@channel) %>
       <%= form_with model: [@channel, Message.new], local: false, data: { action: "ajax:success->channel#clearInput" } do |f| %>
-        <%= f.text_field :body, class: "form-control", data: { channel_target: "input" } %>
+        <%= f.text_field :body, class: "form-control",
+        data: { 
+          channel_target: "input",
+          controller: "mentions", controller: "writing",
+          action: "keyup->mentions#createPendingMention", action: 'keyup->writing#startWriting' } %>
       <% end %>
     <% else %>
       <%= link_to "Join #{@channel.name}", channel_channel_users_path(@channel), method: :post %> to see the messages.

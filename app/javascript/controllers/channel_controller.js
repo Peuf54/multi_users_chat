@@ -3,7 +3,7 @@ import consumer from "../channels/consumer"
 
 // Connects to data-controller="channel"
 export default class extends Controller {
-  static targets = ["messages", "input", "messagesContainer"]
+  static targets = ["messages", "input", "messagesContainer"];
 
   connect() {
     this.subscription = consumer.subscriptions.create({ channel: "MessageChannel", id: this.data.get("id") }, {
@@ -54,8 +54,12 @@ export default class extends Controller {
     this.subscription.perform("touch");
     setTimeout(() => {
       const lastReadLine = this.element.querySelector("#last-read-line");
+      const channelId = this.data.get("id");
+      const pill = document.getElementById(`pill-${channelId}`);
+      
       if (lastReadLine) {
         lastReadLine.remove();
+        pill.innerText = "";
       }
     }, 5000);
   }
