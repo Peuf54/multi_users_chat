@@ -11,8 +11,7 @@ class ChannelsController < ApplicationController
   def show
     @channel_user = current_user.channel_users.find_by(channel_id: @channel.id)
     @last_read_at = @channel_user&.last_read_at
-    @channel_user.touch(:last_read_at) if @last_read_at
-    
+    @channel_user.touch(:last_read_at) if @channel_user
   end
 
   # GET /channels/new
