@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <%= tag.meta name: 'current_user_name', content: current_user.name if user_signed_in? %>
-<%= tag.meta name: 'current_channel_id', content: params[:id] if current_page?(channel_path) %>
+<%= tag.meta name: 'current_channel_id', content: params[:id] if params[:id] && current_page?(channel_path(params[:id])) %>
 
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
